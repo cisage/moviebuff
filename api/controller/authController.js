@@ -1,5 +1,11 @@
 const User = require('../models/UserModel')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const AppError = require('../utils/AppError')
+
+const comparePassword = async (candidatePassword, userPassword) => {
+    return await bcrypt.compare(candidatePassword,userPassword)
+}
 
 const signToken = (id) => {
     return jwt.sign(
@@ -24,9 +30,28 @@ exports.signUp = async (req, res, next) => {
         })
     }
     catch (err) {
-        res.status(400).json({
-            status: 'fail',
-            message:err.message
+        next(new AppError(err.message,400))
+    }
+}
+
+exports.login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body
+        if (!email || !password)
+            return next(new AppError('Please provide email or password', 400))
+        
+        const user = await User.findOne({ email: email }).select('+password')
+        if (!user || (!await comparePassword(password,user.password)))
+            return next(new AppError('Incorrect email or password', 401))
+        
+        const token = signToken(user._id)
+        res.status(200).json({
+            status: 'success',
+            token:token
         })
+        
+    }
+    catch (err) {
+        next(new AppError(err.message,400))
     }
 }
