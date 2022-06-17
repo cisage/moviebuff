@@ -7,7 +7,7 @@ const movieSchema = new mongoose.Schema({
     },
     desc:{
         type:String,
-        required:[true,'A movie must have a ']
+        required:[true,'A movie must have a description']
     },
     imgFeatured: {
         type: String,
@@ -24,9 +24,10 @@ const movieSchema = new mongoose.Schema({
     year: String,
     limit: Number,
     genre: String,
-    type: {
-        enum: ['Series', 'Movie'],
-        default:'Movie'
+    category: {
+        type:String,
+        enum: ['series', 'movie'],
+        default:'movie'
     }
 })
 

@@ -41,6 +41,7 @@ exports.login = async (req, res, next) => {
             return next(new AppError('Please provide email or password', 400))
         
         const user = await User.findOne({ email: email }).select('+password')
+        console.log(user)
         if (!user || (!await comparePassword(password,user.password)))
             return next(new AppError('Incorrect email or password', 401))
         
@@ -53,5 +54,42 @@ exports.login = async (req, res, next) => {
     }
     catch (err) {
         next(new AppError(err.message,400))
+    }
+}
+
+exports.protect = async (req, res, next) => {
+    try {
+        let token;
+        if (req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
+            token = req.headers.authorization.split(' ')[1];
+        
+        if (!token)
+            return next(new AppError('You are not logged in,log in to get access', 401))
+        
+        //verify token
+
+        const decodedString = jwt.verify(token, process.env.JWT_SECRET)
+        console.log(decodedString)
+        const user = await User.findById(decodedString.id)
+        if (!user)
+            return next(new AppError('The user with this token no longer exists', 401))
+        
+        req.user = user
+        next()
+
+    }
+    catch (err) {
+        return next(new AppError(err.message,400))
+    }
+}
+
+exports.restrictTo = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            
+            return next(new AppError('You dont have access to perform this action',403))
+        }
+
+        next()
     }
 }
