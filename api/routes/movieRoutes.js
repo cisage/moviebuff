@@ -4,7 +4,7 @@ const { getAllMovies, getMovie, updateMovie, deleteMovie, createMovie } = requir
 
 const movieRouter = express.Router()
 
-movieRouter.route('/').get(getAllMovies)
+movieRouter.route('/').get(protect, restrictTo('admin'), getAllMovies)
 
 movieRouter.route('/:id')
     .get(protect, restrictTo('admin'), getMovie)
