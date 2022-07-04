@@ -1,40 +1,57 @@
 import "./listItem.scss";
-import {
-  Add,
-  ThumbUpAltOutlined,
-} from "@mui/icons-material"
-import { useState } from "react";
-
-export default function ListItem({ index }) {
+import { Add, ThumbUpAltOutlined } from "@mui/icons-material";
+import { useState, useEffect } from "react";
+import axios from "axios";
+export default function ListItem({ item, index }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [movie, setMovie] = useState({});
+
+  const baseURL = "https://image.tmdb.org/t/p/original/";
+
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/mov/movies/${item}`,
+          {
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYWI0YTJjYjNlOTRkMmNhZDBiZDRjZCIsImlhdCI6MTY1NjU4NjU3MywiZXhwIjoxNjU4NDg3MzczfQ.iA641RVd2FuHW4aP_JlOzkoJsoddn0CGvayZmJMIPCo",
+            },
+          }
+        );
+        setMovie(res.data.movie);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getMovie();
+  }, [item]);
+
   return (
     <div
       className="listItem"
-      style={{ left: isHovered && index * 245 - 50}}
+      style={{ left: isHovered && index * 245 - 50 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img
-        src="https://occ-0-1723-92.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABU7D36jL6KiLG1xI8Xg_cZK-hYQj1L8yRxbQuB0rcLCnAk8AhEK5EM83QI71bRHUm0qOYxonD88gaThgDaPu7NuUfRg.jpg?r=4ee"
-        alt=""
-      />
+      <img src={baseURL + movie.imgThumbnail} alt="" />
       {isHovered && (
         <>
           <div className="itemInfo">
             <div className="icons">
+              {movie.title}
               <Add className="icon" />
               <ThumbUpAltOutlined className="icon" />
             </div>
             <div className="itemInfoTop">
               <span>1 hour 14 mins</span>
-              <span className="limit">+16</span>
-              <span>1999</span>
+              <span className="limit">{`+${movie.limit}`}</span>
+              <span>{movie.year}</span>
             </div>
-            <div className="desc">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Praesentium hic rem eveniet error possimus, neque ex doloribus.
-            </div>
-            <div className="genre">Action</div>
+            <div className="desc">{movie.desc.split(".")[0]}</div>
+            <div className="genre">{movie.genre}</div>
           </div>
         </>
       )}

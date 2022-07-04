@@ -4,12 +4,14 @@ const { getAllMovies, getMovie, updateMovie, deleteMovie, createMovie } = requir
 
 const movieRouter = express.Router()
 
-movieRouter.route('/').get(protect, restrictTo('admin'), getAllMovies)
+movieRouter.route('/')
+    .get(protect, restrictTo('admin'), getAllMovies)
+    .post(protect,restrictTo('admin'),createMovie)
 
 movieRouter.route('/:id')
     .get(protect, restrictTo('admin'), getMovie)
     .patch(protect, restrictTo('admin'), updateMovie)
     .delete(protect, restrictTo('admin'), deleteMovie)
-    .post(protect,restrictTo('admin'),createMovie)
+    
 
 module.exports = movieRouter
