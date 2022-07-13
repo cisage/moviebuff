@@ -36,22 +36,24 @@ export default function ListItem({ item, index }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img src={baseURL + movie.imgThumbnail} alt="" />
+      <img src={baseURL + movie?.imgFeatured} alt="" />
       {isHovered && (
         <>
           <div className="itemInfo">
-            <div className="icons">
-              {movie.title}
-              <Add className="icon" />
-              <ThumbUpAltOutlined className="icon" />
+            <div className="row1">
+              <span>{movie?.title}</span>
+              <div className="icons">
+                <Add className="icon" />
+                <ThumbUpAltOutlined className="icon" />
+              </div>
             </div>
             <div className="itemInfoTop">
               <span>1 hour 14 mins</span>
-              <span className="limit">{`+${movie.limit}`}</span>
-              <span>{movie.year}</span>
+              <span className="limit">{`+${movie?.limit}`}</span>
+              <span>{movie?.year}</span>
             </div>
-            <div className="desc">{movie.desc.split(".")[0]}</div>
-            <div className="genre">{movie.genre}</div>
+            <div className="desc">{movie?.desc.split(".")[0]}</div>
+            <div className="genre">{movie?.genre}</div>
           </div>
         </>
       )}

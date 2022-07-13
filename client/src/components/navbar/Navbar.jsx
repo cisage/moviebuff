@@ -1,7 +1,26 @@
-import { Notifications, Search } from "@mui/icons-material";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
-const Navbar = () => {
+import axios from "axios";
+
+const Navbar = ({ user }) => {
+  const Logout = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await axios.get(
+        "http://localhost:5000/api/mov/users/logout",
+        { withCredentials: true }
+      );
+      if (res.data.status === "success") {
+        window.setTimeout(() => {
+          alert("successfully logged out");
+          window.location.assign("/");
+          //to navigate to '/' after 1 sec
+        }, 1000);
+      }
+    } catch (err) {
+      alert(err.response.data.message);
+    }
+  };
   return (
     <div className="navbar">
       <div className="container">
@@ -18,18 +37,33 @@ const Navbar = () => {
           <Link to="/series" className="link">
             <span>Series</span>
           </Link>
-
-          <span>New and Popular</span>
-          <span>My List</span>
+          {user && <span>My List</span>}
         </div>
         <div className="right">
-          <Search className="icon" />
-          <span>KID</span>
-          <Notifications className="icon" />
-          <img
-            src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-            alt=""
-          />
+          {user ? (
+            <>
+              <button className="ui red button" type="submit" onClick={Logout}>
+                Logout
+              </button>
+              <img
+                src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                alt=""
+              />
+            </>
+          ) : (
+            <>
+              <Link to="/login">
+                <button className="ui diy button" type="submit">
+                  Login
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button className="ui red button" type="submit">
+                  SignUp
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>

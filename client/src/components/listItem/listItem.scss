@@ -39,18 +39,28 @@
       flex-direction: column;
       padding: 5px;
 
-      .icons {
+      .row1 {
         display: flex;
-        margin-bottom: 10px;
-
-        .icon {
-          border: 2px solid white;
-          padding: 5px;
-          border-radius: 50%;
-          margin-right: 10px;
-          font-size: 27px;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        align-items: center;
+        span {
+          font-size: 17px;
+          font-weight: 500;
+          margin-right: 5px;
+        }
+        .icons {
+          display: flex;
+          .icon {
+            border: 2px solid white;
+            padding: 5px;
+            border-radius: 50%;
+            margin-right: 7px;
+            font-size: 27px;
+          }
         }
       }
+
       .itemInfoTop {
         display: flex;
         align-items: center;

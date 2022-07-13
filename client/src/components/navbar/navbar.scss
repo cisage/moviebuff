@@ -35,7 +35,18 @@
     .right {
       display: flex;
       align-items: center;
-
+      .diy {
+        background-color: #2c2b2b;
+        color: white;
+      }
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        height: 30px;
+        margin-right: 10px;
+      }
       .icon {
         margin: 0px 15px;
         cursor: pointer;

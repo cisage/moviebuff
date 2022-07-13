@@ -81,8 +81,6 @@ exports.getList = async (req, res, next) => {
 exports.getAllLists = async (req, res, next) => {
   try {
     const lists = await List.find();
-
-    console.log(lists);
     res.status(200).json({
       status: "success",
       results: lists.length,

@@ -4,7 +4,7 @@ import "./home.scss";
 import List from "../../components/list/List";
 import { useEffect, useState } from "react";
 import axios from "axios";
-const Home = ({ type }) => {
+const Home = ({ type, user }) => {
   const [lists, setLists] = useState([]);
   useEffect(() => {
     //cant mark useEffect as async
@@ -26,7 +26,7 @@ const Home = ({ type }) => {
   }, [type]);
   return (
     <div className="home">
-      <Navbar />
+      <Navbar user={user} />
       <Featured type={type} />
       {lists.map((list) => {
         return <List list={list} />;

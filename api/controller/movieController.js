@@ -30,7 +30,6 @@ exports.updateMovie = async (req, res, next) => {
     if (req.body.genre) newObj.genre = req.body.genre;
     if (req.body.category) newObj.category = req.body.category;
 
-    console.log(newObj);
     const updatedMovie = await Movie.findByIdAndUpdate(id, newObj, {
       new: true,
       runValidators: true,
@@ -91,6 +90,19 @@ exports.getAllMovies = async (req, res, next) => {
       status: "success",
       results: movies.length,
       movies,
+    });
+  } catch (err) {
+    return next(new AppError(err.message, 400));
+  }
+};
+
+//get random movie
+exports.getRandomMovie = async (re, res, next) => {
+  try {
+    const movie = await Movie.aggregate([{ $sample: { size: 1 } }]);
+    res.status(200).json({
+      status: "success",
+      movie,
     });
   } catch (err) {
     return next(new AppError(err.message, 400));
