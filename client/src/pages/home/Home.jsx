@@ -29,7 +29,7 @@ const Home = ({ type, user }) => {
       <Navbar user={user} />
       <Featured type={type} />
       {lists.map((list) => {
-        return <List list={list} />;
+        return <List list={list} user={user} />;
       })}
       <span className="lorem">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ea dolore

@@ -2,11 +2,16 @@ import "./listItem.scss";
 import { Add, ThumbUpAltOutlined } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import axios from "axios";
-export default function ListItem({ item, index }) {
+export default function ListItem({ user, item, index }) {
   const [isHovered, setIsHovered] = useState(false);
   const [movie, setMovie] = useState({});
 
   const baseURL = "https://image.tmdb.org/t/p/original/";
+
+  const addToWatchList = async (e) => {
+    try {
+    } catch (err) {}
+  };
 
   useEffect(() => {
     const getMovie = async () => {
@@ -43,8 +48,14 @@ export default function ListItem({ item, index }) {
             <div className="row1">
               <span>{movie?.title}</span>
               <div className="icons">
-                <Add className="icon" />
-                <ThumbUpAltOutlined className="icon" />
+                {user && (
+                  <>
+                    <div className="icon-wrapper" onClick={addToWatchList}>
+                      <Add className="icon" />
+                    </div>
+                    <ThumbUpAltOutlined className="icon" />
+                  </>
+                )}
               </div>
             </div>
             <div className="itemInfoTop">

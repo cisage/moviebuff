@@ -157,3 +157,33 @@ exports.isLoggedIn = async (req, res, next) => {
   }
   //if jwt doesnt exist then we will directly call next
 };
+
+exports.updatePassword = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id).select("+password");
+    if (!(await comparePassword(req.body.passwordCurrent, user.password))) {
+      return next(new AppError("This password is incorrect", 401));
+    }
+
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    await user.save();
+    const token = signToken(user._id);
+
+    const cookieOptions = {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httponly: true,
+    };
+
+    res.cookie("jwt", token, cookieOptions);
+
+    res.status(200).json({
+      status: "success",
+      token: token,
+    });
+  } catch (err) {
+    next(new AppError(err.message, 400));
+  }
+};

@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import ListItem from "../listItem/ListItem";
 import "./list.scss";
 
-export default function List({ list }) {
+export default function List({ user, list }) {
   const [isMoved, setIsMoved] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
 
@@ -35,7 +35,7 @@ export default function List({ list }) {
         />
         <div className="container" ref={listRef}>
           {list.content.map((item, index) => {
-            return <ListItem item={item} index={index} />;
+            return <ListItem item={item} index={index} user={user} />;
           })}
         </div>
         <ArrowForwardIosOutlined

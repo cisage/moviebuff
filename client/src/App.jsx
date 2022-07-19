@@ -5,6 +5,7 @@ import Login from "./pages/login/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Profile from "./pages/profile/Profile";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="series/*" element={<Home type="series" user={user} />} />
           <Route path="signup/*" element={<Register />} />
           <Route path="login/*" element={<Login />} />
+          <Route path="profile/*" element={<Profile user={user} />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,7 +1,6 @@
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
 const Navbar = ({ user }) => {
   const Logout = async (e) => {
     try {
@@ -45,10 +44,12 @@ const Navbar = ({ user }) => {
               <button className="ui red button" type="submit" onClick={Logout}>
                 Logout
               </button>
-              <img
-                src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                alt=""
-              />
+              <Link to="/profile">
+                <img
+                  src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                  alt=""
+                />
+              </Link>
             </>
           ) : (
             <>

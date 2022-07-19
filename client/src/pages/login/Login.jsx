@@ -66,7 +66,6 @@ const Login = () => {
               SignUp
             </button>
           </Link>
-          .
         </form>
       </div>
     </div>

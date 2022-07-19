@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   z-index: 999;
-  background-color: #202020;
+  background-color: var(--main-color);
 
   .container {
     padding: 0px 50px;

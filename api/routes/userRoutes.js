@@ -6,6 +6,7 @@ const {
   restrictTo,
   isLoggedIn,
   logout,
+  updatePassword,
 } = require("../controller/authController");
 const {
   updateMe,
@@ -27,7 +28,7 @@ userRouter.route("/isLoggedIn").get(isLoggedIn);
 userRouter.route("/updateMe").patch(protect, updateMe);
 userRouter.route("/deleteMe").delete(protect, deleteMe);
 userRouter.route("/getMe").get(protect, getMe);
-
+userRouter.route("/updatePassword").patch(protect, updatePassword);
 userRouter
   .route("/:id")
   .patch(protect, restrictTo("admin"), updateUser)
