@@ -9,8 +9,23 @@ export default function ListItem({ user, item, index }) {
   const baseURL = "https://image.tmdb.org/t/p/original/";
 
   const addToWatchList = async (e) => {
+    console.log(movie);
     try {
-    } catch (err) {}
+      const res = await axios({
+        method: "post",
+        url: "http://localhost:5000/api/mov/users/addToWatchList",
+        data: {
+          movie_id: movie._id,
+        },
+        withCredentials: true,
+      });
+      if (res.data.status === "success") {
+        console.log(res.data.user.watchList);
+        alert("added movie to watch list");
+      }
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   };
 
   useEffect(() => {

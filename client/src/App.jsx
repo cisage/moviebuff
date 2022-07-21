@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Profile from "./pages/profile/Profile";
+import MyList from "./pages/myList/MyList";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="signup/*" element={<Register />} />
           <Route path="login/*" element={<Login />} />
           <Route path="profile/*" element={<Profile user={user} />} />
+          <Route path="myList/*" element={<MyList user={user} />} />
         </Routes>
       </BrowserRouter>
     </div>

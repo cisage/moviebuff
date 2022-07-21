@@ -36,7 +36,11 @@ const Navbar = ({ user }) => {
           <Link to="/series" className="link">
             <span>Series</span>
           </Link>
-          {user && <span>My List</span>}
+          {user && (
+            <Link to="/myList" className="link">
+              <span>My List</span>
+            </Link>
+          )}
         </div>
         <div className="right">
           {user ? (

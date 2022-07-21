@@ -16,6 +16,7 @@ const {
   deleteUser,
   getUser,
   getAllUsers,
+  addToWatchList,
 } = require("../controller/userController");
 
 const userRouter = express.Router();
@@ -29,6 +30,7 @@ userRouter.route("/updateMe").patch(protect, updateMe);
 userRouter.route("/deleteMe").delete(protect, deleteMe);
 userRouter.route("/getMe").get(protect, getMe);
 userRouter.route("/updatePassword").patch(protect, updatePassword);
+userRouter.route("/addToWatchList").post(protect, addToWatchList);
 userRouter
   .route("/:id")
   .patch(protect, restrictTo("admin"), updateUser)
