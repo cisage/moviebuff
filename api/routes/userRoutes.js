@@ -17,6 +17,8 @@ const {
   getUser,
   getAllUsers,
   addToWatchList,
+  updateMovieInWatchList,
+  deleteMovieInWatchList,
 } = require("../controller/userController");
 
 const userRouter = express.Router();
@@ -31,6 +33,13 @@ userRouter.route("/deleteMe").delete(protect, deleteMe);
 userRouter.route("/getMe").get(protect, getMe);
 userRouter.route("/updatePassword").patch(protect, updatePassword);
 userRouter.route("/addToWatchList").post(protect, addToWatchList);
+userRouter
+  .route("/updateMovieInWatchList")
+  .patch(protect, updateMovieInWatchList);
+userRouter
+  .route("/deleteMovieInWatchList")
+  .delete(protect, deleteMovieInWatchList);
+
 userRouter
   .route("/:id")
   .patch(protect, restrictTo("admin"), updateUser)

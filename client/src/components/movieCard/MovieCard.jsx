@@ -1,26 +1,20 @@
 import "./movieCard.scss";
 import { useState, useEffect } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
+import dropdownItems from "../../utils/movieStatus";
 
-const MovieCard = ({ item }) => {
+const MovieCard = ({ item, setUser }) => {
   const [movie, setMovie] = useState({});
   const baseURL = "https://image.tmdb.org/t/p/original/";
   const [isActive, setIsActive] = useState(false);
-  const [selectedDropdown, setSelectedDropdown] = useState("Plan to Watch");
-  const dropdownItems = [
-    "Plan to Watch",
-    "Dropped",
-    "On Hold",
-    "Completed",
-    "Currently Watching",
-  ];
 
   useEffect(() => {
     const getMovie = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/mov/movies/${item}`,
+          `http://localhost:5000/api/mov/movies/${item.movie_id}`,
           {
             headers: {
               Authorization:
@@ -39,6 +33,46 @@ const MovieCard = ({ item }) => {
 
   const handleButtonClick = (e) => {
     setIsActive(!isActive);
+  };
+
+  const updateMovieInWatchList = async (e) => {
+    console.log(e.target.textContent);
+    try {
+      const res = await axios({
+        method: "patch",
+        url: "http://localhost:5000/api/mov/users/updateMovieInWatchList",
+        data: {
+          movie_id: item.movie_id,
+          movie_status: e.target.textContent,
+        },
+        withCredentials: true,
+      });
+      if (res.data.status === "success") {
+        setUser(res.data.user);
+        setIsActive(!isActive);
+      }
+    } catch (err) {
+      alert(err.response.data.message);
+    }
+  };
+
+  const deleteMovieInWatchList = async (e) => {
+    try {
+      const res = await axios({
+        method: "delete",
+        url: "http://localhost:5000/api/mov/users/deleteMovieInWatchList",
+        data: {
+          movie_id: item.movie_id,
+        },
+        withCredentials: true,
+      });
+
+      if (res.data.status === "success") {
+        setUser(res.data.user);
+      }
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   };
 
   return (
@@ -66,26 +100,23 @@ const MovieCard = ({ item }) => {
           style={{ top: isActive ? "75px" : "0px" }}
           onClick={handleButtonClick}
         >
-          <span>{selectedDropdown}</span>
+          <span>{item?.movie_status}</span>
           <ArrowDropDownIcon />
         </div>
         {isActive && (
           <div className="dropdown_content">
-            {dropdownItems.map((item) => {
+            {dropdownItems.map((ditem) => {
               return (
-                <div
-                  className="dropdown_item"
-                  onClick={(e) => {
-                    setSelectedDropdown(e.target.textContent);
-                    setIsActive(!isActive);
-                  }}
-                >
-                  {item}
+                <div className="dropdown_item" onClick={updateMovieInWatchList}>
+                  {ditem}
                 </div>
               );
             })}
           </div>
         )}
+      </div>
+      <div className="deleteButton" onClick={deleteMovieInWatchList}>
+        <DeleteIcon className="icon" />
       </div>
     </div>
   );

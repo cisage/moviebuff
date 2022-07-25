@@ -13,14 +13,14 @@ const movieRouter = express.Router();
 
 movieRouter
   .route("/")
-  .get(protect, restrictTo("admin"), getAllMovies)
+  .get(getAllMovies)
   .post(protect, restrictTo("admin"), createMovie);
 
-movieRouter.route("/random").get(protect, restrictTo("admin"), getRandomMovie);
+movieRouter.route("/random").get(getRandomMovie);
 
 movieRouter
   .route("/:id")
-  .get(protect, restrictTo("admin"), getMovie)
+  .get(getMovie)
   .patch(protect, restrictTo("admin"), updateMovie)
   .delete(protect, restrictTo("admin"), deleteMovie);
 

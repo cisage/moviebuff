@@ -25,12 +25,24 @@ const App = () => {
     <div className="app">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home type="movies" user={user} />} />
-          <Route path="series/*" element={<Home type="series" user={user} />} />
+          <Route
+            path="/"
+            element={<Home type="movies" user={user} setUser={setUser} />}
+          />
+          <Route
+            path="series/*"
+            element={<Home type="series" user={user} setUser={setUser} />}
+          />
           <Route path="signup/*" element={<Register />} />
           <Route path="login/*" element={<Login />} />
-          <Route path="profile/*" element={<Profile user={user} />} />
-          <Route path="myList/*" element={<MyList user={user} />} />
+          <Route
+            path="profile/*"
+            element={<Profile user={user} setUser={setUser} />}
+          />
+          <Route
+            path="myList/*"
+            element={<MyList user={user} setUser={setUser} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

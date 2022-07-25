@@ -5,7 +5,7 @@ import LegendToggleIcon from "@mui/icons-material/LegendToggle";
 import { useRef } from "react";
 import axios from "axios";
 
-const Profile = ({ user }) => {
+const Profile = ({ user, setUser }) => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const firstNameRef = useRef(null);
@@ -28,10 +28,7 @@ const Profile = ({ user }) => {
 
       if (res.data.status === "success") {
         alert("Saved details successfully");
-        window.setTimeout(() => {
-          window.location.assign("/");
-          //to navigate to '/' after 1 sec
-        }, 1000);
+        setUser(res.data.user);
       }
     } catch (err) {
       alert(err.response.data.message);

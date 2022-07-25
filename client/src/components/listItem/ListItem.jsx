@@ -2,7 +2,9 @@ import "./listItem.scss";
 import { Add, ThumbUpAltOutlined } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import axios from "axios";
-export default function ListItem({ user, item, index }) {
+import dropdownItems from "../../utils/movieStatus";
+
+export default function ListItem({ user, item, index, setUser }) {
   const [isHovered, setIsHovered] = useState(false);
   const [movie, setMovie] = useState({});
 
@@ -16,12 +18,17 @@ export default function ListItem({ user, item, index }) {
         url: "http://localhost:5000/api/mov/users/addToWatchList",
         data: {
           movie_id: movie._id,
+          movie_status: dropdownItems[0],
         },
         withCredentials: true,
       });
       if (res.data.status === "success") {
-        console.log(res.data.user.watchList);
-        alert("added movie to watch list");
+        if (res.data.user) {
+          setUser(res.data.user);
+          alert("added movie to watch list");
+        } else {
+          alert("movie already in watch list");
+        }
       }
     } catch (err) {
       alert(err.response.data.message);
@@ -32,13 +39,7 @@ export default function ListItem({ user, item, index }) {
     const getMovie = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/mov/movies/${item}`,
-          {
-            headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYWI0YTJjYjNlOTRkMmNhZDBiZDRjZCIsImlhdCI6MTY1NjU4NjU3MywiZXhwIjoxNjU4NDg3MzczfQ.iA641RVd2FuHW4aP_JlOzkoJsoddn0CGvayZmJMIPCo",
-            },
-          }
+          `http://localhost:5000/api/mov/movies/${item}`
         );
         setMovie(res.data.movie);
       } catch (err) {

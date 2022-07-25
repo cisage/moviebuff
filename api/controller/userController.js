@@ -138,17 +138,75 @@ exports.getAllUsers = async (req, res, next) => {
 };
 exports.addToWatchList = async (req, res, next) => {
   try {
-    console.log(req.body);
-    const watchList = req.user.watchList;
+    let watchList = req.user.watchList;
     let flag = false;
     watchList.map((item) => {
-      if (item == req.body.movie_id) {
+      if (item.movie_id == req.body.movie_id) {
         flag = true;
       }
     });
     if (!flag) {
-      watchList.push(req.body.movie_id);
+      watchList.push({
+        movie_id: req.body.movie_id,
+        movie_status: req.body.movie_status,
+      });
+    } else {
+      res.status(200).json({
+        status: "success",
+      });
+      return;
     }
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { watchList },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "success",
+      user: updatedUser,
+    });
+  } catch (err) {
+    return next(new AppError(err.message, 400));
+  }
+};
+
+exports.updateMovieInWatchList = async (req, res, next) => {
+  try {
+    let watchList = req.user.watchList;
+    watchList = watchList.map((item) => {
+      if (item.movie_id === req.body.movie_id) {
+        return {
+          movie_id: req.body.movie_id,
+          movie_status: req.body.movie_status,
+        };
+      } else {
+        return item;
+      }
+    });
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { watchList },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "success",
+      user: updatedUser,
+    });
+  } catch (err) {
+    return next(new AppError(err.message, 400));
+  }
+};
+
+exports.deleteMovieInWatchList = async (req, res, next) => {
+  try {
+    let watchList = req.user.watchList;
+    let index = -1;
+    watchList.map((item, i) => {
+      if (item.movie_id === req.body.movie_id) {
+        index = i;
+      }
+    });
+    watchList.splice(index, 1);
     console.log(watchList);
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,

@@ -10,13 +10,7 @@ export default function Featured({ type }) {
   useEffect(() => {
     const getFeaturedMovie = async () => {
       const res = await axios.get(
-        `http://localhost:5000/api/mov/movies/random`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYWI0YTJjYjNlOTRkMmNhZDBiZDRjZCIsImlhdCI6MTY1NjU4NjU3MywiZXhwIjoxNjU4NDg3MzczfQ.iA641RVd2FuHW4aP_JlOzkoJsoddn0CGvayZmJMIPCo",
-          },
-        }
+        `http://localhost:5000/api/mov/movies/random`
       );
       setFeaturedMovie(res.data.movie[0]);
     };

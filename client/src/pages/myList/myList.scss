@@ -1,11 +1,9 @@
 .myList {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  right: 0px;
-  left: 0px;
+  position: relative;
   top: 70px;
-  bottom: 0px;
+  min-height: 100vh;
   background-color: var(--main-color);
   color: white;
   .watchList {
