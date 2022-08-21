@@ -1,20 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const response = require("./response_documentary.json");
+const response = require("./tv_family.json");
 const Movie = require("../models/MovieModel");
 
 const populateData = async (req, res) => {
   response.results.map(async (item) => {
     const newObj = {};
-    newObj.title = item.title;
+    newObj.title = item.name;
     newObj.desc = item.overview;
     newObj.imgFeatured = item.backdrop_path;
     newObj.imgThumbnail = item.poster_path;
-    newObj.year = item.release_date.split("-")[0];
+    newObj.year = item.first_air_date.split("-")[0];
     newObj.limit = 18;
-    newObj.genre = "Documentary";
-    console.log(newObj);
-    //await Movie.create(newObj);
+    newObj.genre = "Family";
+    newObj.category = "series";
+    //console.log(newObj);
+    await Movie.create(newObj);
   });
   res.status(200).json({
     status: "success",
@@ -24,7 +25,7 @@ const populateData = async (req, res) => {
 
 const getMovieIds = async (req, res) => {
   try {
-    const data = await Movie.find({ genre: req.params.id });
+    const data = await Movie.find({ genre: req.params.id, category: "series" });
     const newdata = data.map((el) => {
       return el._id;
     });

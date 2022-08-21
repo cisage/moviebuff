@@ -97,9 +97,13 @@ exports.getAllMovies = async (req, res, next) => {
 };
 
 //get random movie
-exports.getRandomMovie = async (re, res, next) => {
+exports.getRandomMovie = async (req, res, next) => {
   try {
-    const movie = await Movie.aggregate([{ $sample: { size: 1 } }]);
+    const type = req.params.id;
+    const movie = await Movie.aggregate([
+      { $match: { category: type } },
+      { $sample: { size: 1 } },
+    ]);
     res.status(200).json({
       status: "success",
       movie,

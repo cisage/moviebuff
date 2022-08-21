@@ -16,7 +16,7 @@ movieRouter
   .get(getAllMovies)
   .post(protect, restrictTo("admin"), createMovie);
 
-movieRouter.route("/random").get(getRandomMovie);
+movieRouter.route("/random/:id").get(getRandomMovie);
 
 movieRouter
   .route("/:id")

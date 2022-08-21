@@ -11,7 +11,11 @@ const Home = ({ type, user, setUser }) => {
     const getLists = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/mov/lists`);
-        setLists(res.data.lists);
+        const resLists = res.data.lists.filter((list) => {
+          return list.category === type;
+        });
+        console.log(resLists);
+        setLists(resLists);
       } catch (err) {
         console.log(err);
       }

@@ -17,6 +17,30 @@
     .left {
       display: flex;
       align-items: center;
+      .logo {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        margin-right: 60px;
+        .m {
+          font-size: 45px;
+          color: #ff4136;
+          font-weight: 500;
+        }
+        .b {
+          display: flex;
+          align-items: center;
+          position: absolute;
+          left: 86px;
+          width: 30px;
+          height: 45px;
+          background: linear-gradient(#40e0d0 5%, rgba(222, 49, 99, 1) 89%);
+          font-weight: 550;
+          font-size: 43px;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      }
       .link {
         color: inherit;
         text-decoration: none;

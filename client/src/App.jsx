@@ -27,11 +27,11 @@ const App = () => {
         <Routes>
           <Route
             path="/"
-            element={<Home type="movies" user={user} setUser={setUser} />}
+            element={<Home type="Movies" user={user} setUser={setUser} />}
           />
           <Route
             path="series/*"
-            element={<Home type="series" user={user} setUser={setUser} />}
+            element={<Home type="Series" user={user} setUser={setUser} />}
           />
           <Route path="signup/*" element={<Register />} />
           <Route path="login/*" element={<Login />} />

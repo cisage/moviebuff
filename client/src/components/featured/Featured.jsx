@@ -8,9 +8,10 @@ export default function Featured({ type }) {
   const baseURL = "https://image.tmdb.org/t/p/original/";
 
   useEffect(() => {
+    const id = type === "Movies" ? "movie" : "series";
     const getFeaturedMovie = async () => {
       const res = await axios.get(
-        `http://localhost:5000/api/mov/movies/random`
+        `http://localhost:5000/api/mov/movies/random/${id}`
       );
       setFeaturedMovie(res.data.movie[0]);
     };

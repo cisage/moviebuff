@@ -75,7 +75,6 @@ export default function ListItem({ user, item, index, setUser }) {
               </div>
             </div>
             <div className="itemInfoTop">
-              <span>1 hour 14 mins</span>
               <span className="limit">{`+${movie?.limit}`}</span>
               <span>{movie?.year}</span>
             </div>
